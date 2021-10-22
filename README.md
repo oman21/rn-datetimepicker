@@ -15,21 +15,48 @@ const App () => {
   const [date, setDate] = useState(new Date());
 
   return (
-   <DateTimePickerLib
-     visible={visible}
-     onCancel={()=>setVisible(!visible)}
-     onSelect={(data)=>{
-       setDate(data);
-       setVisible(!visible);
-     }}
-   />
+   <View style={{flex:1}}>
+      <Text style={{margin: 15}}>{date.toString()}</Text>
+
+      <Button
+        onPress={()=>setVisible(!visible)}
+        title="Open Datetime Picker"
+      />
+
+      <DateTimePickerLib
+        visible={visible}
+        onCancel={()=>setVisible(!visible)}
+        onSelect={(data)=>{
+          setDate(data);
+          setVisible(!visible);
+        }}
+      />
+   </View>
  )
 }
 ```
 
+## Screenshots
+
+![screenshoot](https://i.ibb.co/SNVKysZ/ezgif-2-59a9372cd8e9.gif)
+
+## Props
+
+## Props
+
+| Prop                    | Description                                                                                 |
+|-------------------------|---------------------------------------------------------------------------------------------|
+| visible                 | Datetime picker visible                                                                     |
+| onCancel                | Action when cancel.                                                                         |
+| onSelect                | Action when select return date.                                                             |
+| minDate                 | Set minimum date.                                                                           |
+| maxDate                 | Set maximum date.                                                                           |
+                                                                               
 ## To Do
-- [ ] Minimum date
-- [ ] Maximum date
+- [x] Minimum date
+- [x] Maximum date
+- [ ] Value
+- [ ] Type datetime/date
 - [ ] Hour am/pm
 
 ## Contributing
