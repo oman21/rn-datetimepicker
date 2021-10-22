@@ -1,6 +1,6 @@
 {
   "name": "@oman21/rn-datetimepicker",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha2",
   "description": "React Native Datetime Picker Module",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "author": "Oman Fathurohman",
   "license": "ISC",
   "peerDependencies": {
-    "react": "^16.3.2",
-    "react-native": "^0.55.4"
+    "react": "*",
+    "react-native": "*"
   }
 }

@@ -31,7 +31,9 @@ const DateTimePickerLib = (props) => {
 
   useEffect(()=>{
     var yearDatas = [];
-    for(var i=1900; i<2101; i++){
+    var minYear = props.minDate?parseInt(new Date(props.minDate).getFullYear()):1900;
+    var maxYear = props.maxDate?parseInt(new Date(props.maxDate).getFullYear()):2101;
+    for(var i=minYear; i<=maxYear; i++){
       yearDatas.push(i)
     }
     setYearData(yearDatas)
@@ -84,28 +86,100 @@ const DateTimePickerLib = (props) => {
 
   const changeMonth = (n) => {
     var d = activeDate;
-    d.setMonth(activeDate.getMonth() + n);
+    d.setMonth(d.getMonth() + n);
     setActiveDate(new Date(d));
   }
 
   function prevMonth() {
-    var d = activeDate;
-    if(d.getMonth()===0){
-      return monthsShort[11];
+    var onDate = new Date(activeDate.getFullYear()+'-'+("0" + (activeDate.getMonth() + 1)).slice(-2)+'-'+("0" + activeDate.getDate()).slice(-2));
+    var minDate = new Date(props.minDate);
+
+    if(parseInt(onDate.getFullYear()) <= parseInt(minDate.getFullYear())){
+      if(onDate.getMonth() > minDate.getMonth()) {
+        return renderPrevMonthButton();
+      }else{
+        return <View style={{width:50}}/>
+      }
     }else{
-      var res = d.getMonth() - 1;
-      return monthsShort[res];
+      return renderPrevMonthButton()
     }
   }
 
-  function nextMonth() {
+  function renderPrevMonthButton() {
     var d = activeDate;
+    var monthName = '';
+    if(d.getMonth()===0){
+      monthName = monthsShort[11];
+    }else{
+      var res = d.getMonth() - 1;
+      monthName = monthsShort[res];
+    }
+
+    return(
+      <TouchableOpacity
+        onPress={() => changeMonth(-1)}
+        disabled={selectYear}
+      >
+        <View 
+          style={{
+            height: 30,
+            opacity: selectYear?0.4:1,
+            justifyContent:'center',
+            alignItems:'center',
+            flexDirection:"row",
+          }}
+        >
+          <Image source={require('./assets/left-chevron.png')} style={{width: 12, height:12, resizeMode: 'contain', marginRight: 8, marginTop: 2}}/>
+          <Text style={{fontSize:13}}>{monthName}</Text>
+        </View>
+      </TouchableOpacity>
+    )
+  }
+
+  function nextMonth() {
+    var onDate = new Date(activeDate.getFullYear()+'-'+("0" + (activeDate.getMonth() + 1)).slice(-2)+'-'+("0" + activeDate.getDate()).slice(-2));
+    var maxDate = new Date(props.maxDate);
+
+    if(parseInt(onDate.getFullYear()) >= parseInt(maxDate.getFullYear())){
+      if(onDate.getMonth() < maxDate.getMonth()) {
+        return renderNextMonthButton();
+      }else{
+        return <View style={{width:50}}/>
+      }
+    }else{
+      return renderNextMonthButton()
+    }
+  }
+
+  function renderNextMonthButton() {
+    var d = activeDate;
+    var monthName = '';
     if(d.getMonth()===11){
-      return monthsShort[0];
+      monthName = monthsShort[0];
     }else{
       var res = d.getMonth() + 1;
-      return monthsShort[res];
+      monthName = monthsShort[res];
     }
+
+    return(
+      <TouchableOpacity
+        onPress={() => changeMonth(+1)}
+        disabled={selectYear}
+      >
+        <View 
+          style={{
+            height: 30,
+            opacity: selectYear?0.4:1,
+            justifyContent:'center',
+            alignItems:'center',
+            flexDirection:"row",
+          }}
+        >
+          <Text style={{fontSize:13}}>{monthName}</Text>
+          <Image source={require('./assets/left-chevron.png')} style={{width: 12, height:12, resizeMode: 'contain', marginLeft: 8, marginTop: 2, transform: [{scaleX: -1}]}}/>
+        </View>
+      </TouchableOpacity>
+    )
   }
 
   const changeYear = () => {
@@ -129,23 +203,7 @@ const DateTimePickerLib = (props) => {
         <View style={{backgroundColor:"#fff", width: win.width-30, borderRadius: 10, paddingVertical: 15}}>
           <View style={{height: 460}}>
             <View style={{flexDirection:'row', alignItems:'center', paddingHorizontal: 15, marginBottom:10}}>
-              <TouchableOpacity
-                onPress={() => changeMonth(-1)}
-                disabled={selectYear}
-              >
-                <View 
-                  style={{
-                    height: 30,
-                    opacity: selectYear?0.4:1,
-                    justifyContent:'center',
-                    alignItems:'center',
-                    flexDirection:"row",
-                  }}
-                >
-                  <Image source={require('./assets/left-chevron.png')} style={{width: 12, height:12, resizeMode: 'contain', marginRight: 8, marginTop: 2}}/>
-                  <Text style={{fontSize:13}}>{prevMonth()}</Text>
-                </View>
-              </TouchableOpacity>
+              {prevMonth()}
               <View style={{flex:1, flexDirection:"row", justifyContent:'center'}}>
                 <Text style={{
                   fontWeight: 'bold',
@@ -169,23 +227,7 @@ const DateTimePickerLib = (props) => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                onPress={() => changeMonth(+1)}
-                disabled={selectYear}
-              >
-                <View 
-                  style={{
-                    height: 30,
-                    opacity: selectYear?0.4:1,
-                    justifyContent:'center',
-                    alignItems:'center',
-                    flexDirection:"row",
-                  }}
-                >
-                  <Text style={{fontSize:13}}>{nextMonth()}</Text>
-                  <Image source={require('./assets/left-chevron.png')} style={{width: 12, height:12, resizeMode: 'contain', marginLeft: 8, marginTop: 2, transform: [{scaleX: -1}]}}/>
-                </View>
-              </TouchableOpacity>
+              {nextMonth()}
             </View>
             {
               selectYear?(
@@ -370,27 +412,32 @@ const DateTimePickerLib = (props) => {
                 flex: 1,
                 height: 20,
                 justifyContent:'center',
-                alignItems:'center'
+                alignItems:'center',
               }}
             >
-              <View style={{
-                width:30,
-                height:30,
-                backgroundColor: active?'#12a4f2':null,
-                borderRadius:15,
-                justifyContent:'center',
-                alignItems:'center'
-              }}>
+              <TouchableOpacity style={{
+                  width:30,
+                  height:30,
+                  backgroundColor: active?'#12a4f2':null,
+                  borderRadius:15,
+                  justifyContent:'center',
+                  alignItems:'center'
+                }}
+                activeOpacity={0.3}
+                onPress={() => _onPress(item)}
+                disabled={item != -1 && disableDate(item)}
+              >
                 <Text
                   style={{
                     textAlign: 'center',
                     color: active?'#fff':(colIndex == 0 ? '#a00' : '#000'),
-                    fontWeight: active? 'bold': 'normal'
+                    fontWeight: active? 'bold': 'normal',
+                    opacity: item != -1 && disableDate(item)?0.4:1
                   }}
-                  onPress={() => _onPress(item)}>
+                >
                   {item != -1 ? item : ''}
                 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           )
         }
@@ -411,6 +458,24 @@ const DateTimePickerLib = (props) => {
     });
 
     return rows;
+  }
+
+  function disableDate(date) {
+    if(props.minDate || props.maxDate){
+      var monthDate = new Date(activeDate.getFullYear()+'-'+("0" + (activeDate.getMonth() + 1)).slice(-2)+'-'+("0" + activeDate.getDate()).slice(-2));
+      var onDate = new Date(monthDate.setDate(date));
+      var minDate = new Date(props.minDate);
+      var maxDate = new Date(props.maxDate);
+      maxDate.setDate(maxDate.getDate() + 1);
+      if(onDate.getTime() < minDate.getTime() || onDate.getTime() >= maxDate.getTime()){
+        // set not active date
+        return true;
+      }else{
+        return false;
+      }
+    }else{
+      return false
+    }
   }
 }
 
