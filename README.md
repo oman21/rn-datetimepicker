@@ -42,8 +42,6 @@ const App () => {
 
 ## Props
 
-## Props
-
 | Prop                    | Description                                                                                 |
 |-------------------------|---------------------------------------------------------------------------------------------|
 | visible                 | Datetime picker visible                                                                     |
@@ -55,7 +53,7 @@ const App () => {
 ## To Do
 - [x] Minimum date
 - [x] Maximum date
-- [ ] Value
+- [x] Value
 - [ ] Type datetime/date
 - [ ] Hour am/pm
 
