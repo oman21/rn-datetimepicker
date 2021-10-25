@@ -19,12 +19,12 @@ const weekDaysShort = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const nDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 const DateTimePickerLib = (props) => {
-  const [activeDate, setActiveDate] = useState(new Date());
+  const [activeDate, setActiveDate] = useState(props.value?new Date(props.value):new Date());
   const [selectYear, setSelectYear] = useState(false);
   const [yearData, setYearData] = useState([]);
-  const [date, setDate] = useState(new Date());
-  const [hour, setHour] = useState(new Date().getHours().toString());
-  const [minute, setMInute] = useState(new Date().getMinutes().toString());
+  const [date, setDate] = useState(props.value?new Date(props.value):new Date());
+  const [hour, setHour] = useState(props.value?("0" + new Date(props.value).getHours()).substr(-2):("0" + new Date().getHours()).substr(-2));
+  const [minute, setMInute] = useState(props.value?("0" + new Date(props.value).getMinutes()).substr(-2):("0" + new Date().getMinutes()).substr(-2));
 
   let yearListRef = useRef(null);
 	let [initialIndexYear, setIndexInitialYear] = useState(0);
