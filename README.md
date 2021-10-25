@@ -49,6 +49,7 @@ const App () => {
 | onSelect                | Action when select return date.                                                             |
 | minDate                 | Set minimum date.                                                                           |
 | maxDate                 | Set maximum date.                                                                           |
+| value                   | Set value.                                                                           |
                                                                                
 ## To Do
 - [x] Minimum date
