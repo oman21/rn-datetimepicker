@@ -49,13 +49,14 @@ const App () => {
 | onSelect                | Action when select return date.                                                             |
 | minDate                 | Set minimum date.                                                                           |
 | maxDate                 | Set maximum date.                                                                           |
-| value                   | Set value.                                                                           |
+| value                   | Set value.                                                                                  |
+| type                    | type datetime/date (default datetime).                                                                                  |
                                                                                
 ## To Do
 - [x] Minimum date
 - [x] Maximum date
 - [x] Value
-- [ ] Type datetime/date
+- [x] Type datetime/date
 - [ ] Hour am/pm
 
 ## Contributing
