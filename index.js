@@ -25,6 +25,7 @@ const DateTimePickerLib = (props) => {
   const [date, setDate] = useState(props.value?new Date(props.value):new Date());
   const [hour, setHour] = useState(props.value?("0" + new Date(props.value).getHours()).substr(-2):("0" + new Date().getHours()).substr(-2));
   const [minute, setMInute] = useState(props.value?("0" + new Date(props.value).getMinutes()).substr(-2):("0" + new Date().getMinutes()).substr(-2));
+  var type = props.type?props.type:'datetime';
 
   let yearListRef = useRef(null);
 	let [initialIndexYear, setIndexInitialYear] = useState(0);
@@ -201,7 +202,7 @@ const DateTimePickerLib = (props) => {
   >
       <View style={{backgroundColor:'#00000047', width: win.width, height: win.height, zIndex: 999, flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
         <View style={{backgroundColor:"#fff", width: win.width-30, borderRadius: 10, paddingVertical: 15}}>
-          <View style={{height: 460}}>
+          <View style={{height: type==='datetime'?460:370}}>
             <View style={{flexDirection:'row', alignItems:'center', paddingHorizontal: 15, marginBottom:10}}>
               {prevMonth()}
               <View style={{flex:1, flexDirection:"row", justifyContent:'center'}}>
@@ -235,64 +236,68 @@ const DateTimePickerLib = (props) => {
               ):(
                 <View>
                 {renderCalendarData()}
-                <View style={{marginTop: 0}}>
-                  <Text style={{
-                    fontWeight: 'bold',
-                    fontSize: 14,
-                    textAlign: 'center',
-                    color: '#000',
-                    marginRight: 5,
-                    opacity: selectYear?0.4:1
-                  }}>
-                    Set Time
-                  </Text>
-                  <View style={{flexDirection:'row', justifyContent: 'center', marginTop: 10}}>
-                    <View style={{width: 80, justifyContent: 'center', alignItems:'center'}}>
-                      <Text style={{fontSize:13}}>Hour</Text>
-                      <TextInput
-                        style={{
-                          width: 50,
-                          borderBottomColor: '#ccc',
-                          borderBottomWidth: 1,
-                          textAlign:'center',
-                          fontSize: 20,
-                          fontWeight:'bold'
-                        }}
-                        value={hour}
-                        onChangeText={(text)=>{
-                          var num = parseInt(text);
-                          setHour(num>24?'24':text)
-                        }}
-                        keyboardType="numeric"
-                        maxLength={2}
-                      />
+                {
+                  type==='datetime'?(
+                    <View style={{marginTop: 0}}>
+                      <Text style={{
+                        fontWeight: 'bold',
+                        fontSize: 14,
+                        textAlign: 'center',
+                        color: '#000',
+                        marginRight: 5,
+                        opacity: selectYear?0.4:1
+                      }}>
+                        Set Time
+                      </Text>
+                      <View style={{flexDirection:'row', justifyContent: 'center', marginTop: 10}}>
+                        <View style={{width: 80, justifyContent: 'center', alignItems:'center'}}>
+                          <Text style={{fontSize:13}}>Hour</Text>
+                          <TextInput
+                            style={{
+                              width: 50,
+                              borderBottomColor: '#ccc',
+                              borderBottomWidth: 1,
+                              textAlign:'center',
+                              fontSize: 20,
+                              fontWeight:'bold'
+                            }}
+                            value={hour}
+                            onChangeText={(text)=>{
+                              var num = parseInt(text);
+                              setHour(num>24?'24':text)
+                            }}
+                            keyboardType="numeric"
+                            maxLength={2}
+                          />
+                        </View>
+                        <Text style={{fontSize: 20, marginTop: 27, fontWeight: 'bold'}}>:</Text>
+                        <View style={{width: 80, justifyContent: 'center', alignItems:'center'}}>
+                          <Text style={{fontSize: 13}}>Min</Text>
+                          <TextInput
+                            style={{
+                              width: 50,
+                              borderBottomColor: '#ccc',
+                              borderBottomWidth: 1,
+                              textAlign:'center',
+                              fontSize: 20,
+                              fontWeight:'bold'
+                            }}
+                            value={minute}
+                            onChangeText={(text)=>{
+                              var num = parseInt(text);
+                              setMInute(num>59?'59':text)
+                            }}
+                            keyboardType="numeric"
+                            maxLength={2}
+                          />
+                        </View>
+                      </View>
                     </View>
-                    <Text style={{fontSize: 20, marginTop: 27, fontWeight: 'bold'}}>:</Text>
-                    <View style={{width: 80, justifyContent: 'center', alignItems:'center'}}>
-                      <Text style={{fontSize: 13}}>Min</Text>
-                      <TextInput
-                        style={{
-                          width: 50,
-                          borderBottomColor: '#ccc',
-                          borderBottomWidth: 1,
-                          textAlign:'center',
-                          fontSize: 20,
-                          fontWeight:'bold'
-                        }}
-                        value={minute}
-                        onChangeText={(text)=>{
-                          var num = parseInt(text);
-                          setMInute(num>59?'59':text)
-                        }}
-                        keyboardType="numeric"
-                        maxLength={2}
-                      />
-                    </View>
-                  </View>
-                </View>
+                  ):null
+                }
                 <View style={{height:1, backgroundColor:'#ccc', marginVertical: 15}}/>
                 <View>
-                  <Text style={{textAlign:"center", fontWeight:'bold', color: '#000'}}>{weekDays[date.getDay()]}, {date.getDate()} {months[date.getMonth()]} {date.getFullYear()} {hour}:{minute}</Text>
+                  <Text style={{textAlign:"center", fontWeight:'bold', color: '#000'}}>{weekDays[date.getDay()]}, {date.getDate()} {months[date.getMonth()]} {date.getFullYear()} {type==='datetime'?hour+':':''}{type==='datetime'?minute:''}</Text>
                 </View>
                 <View style={{height:1, backgroundColor:'#ccc', marginVertical: 15}}/>
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
