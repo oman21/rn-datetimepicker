@@ -8,7 +8,7 @@ npm i @oman21/rn-datetimepicker
 ## Usage
 
 ```python
-import DateTimePickerLib from './DateTimePickerLib';
+import DateTimePickerLib from '@oman21/rn-datetimepicker';
 
 const App () => {
   const [visible, setVisible] = useState(false);
