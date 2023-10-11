@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text, 
@@ -18,49 +18,65 @@ const weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","S
 const weekDaysShort = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const nDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-const DateTimePickerLib = (props) => {
-  const [activeDate, setActiveDate] = useState(props.value?new Date(props.value):new Date());
+type IAdata = {
+  value: any,
+  type?: string,
+  minDate?: any,
+  maxDate?: any,
+  visible?: boolean,
+  onSelect?: (arg?: any) => void,
+  onCancel?: () => void
+}
+const DateTimePickerLib : React.FC<IAdata> = ({
+  value = "",
+  type = "datetime",
+  minDate = "",
+  maxDate = "",
+  visible = false,
+  onSelect,
+  onCancel
+}) => {
+
+  const [activeDate, setActiveDate] = useState(value?new Date(value):new Date());
   const [selectYear, setSelectYear] = useState(false);
   const [yearData, setYearData] = useState([]);
-  const [date, setDate] = useState(props.value?new Date(props.value):new Date());
-  const [hour, setHour] = useState(props.value?("0" + new Date(props.value).getHours()).substr(-2):("0" + new Date().getHours()).substr(-2));
-  const [minute, setMInute] = useState(props.value?("0" + new Date(props.value).getMinutes()).substr(-2):("0" + new Date().getMinutes()).substr(-2));
-  var type = props.type?props.type:'datetime';
+  const [date, setDate] = useState(value?new Date(value):new Date());
+  const [hour, setHour] = useState(value?("0" + new Date(value).getHours()).substr(-2):("0" + new Date().getHours()).substr(-2));
+  const [minute, setMInute] = useState(value?("0" + new Date(value).getMinutes()).substr(-2):("0" + new Date().getMinutes()).substr(-2));
 
-  let yearListRef = useRef(null);
 	let [initialIndexYear, setIndexInitialYear] = useState(0);
 
   useEffect(()=>{
-    var yearDatas = [];
-    var minYear = props.minDate?parseInt(new Date(props.minDate).getFullYear()):1900;
-    var maxYear = props.maxDate?parseInt(new Date(props.maxDate).getFullYear()):2101;
-    for(var i=minYear; i<=maxYear; i++){
+    let yearDatas:any = [];
+    let minYear = minDate?Number(new Date(minDate).getFullYear()):1900;
+    let maxYear = maxDate?Number(new Date(maxDate).getFullYear()):2101;
+    for(let i=minYear; i<=maxYear; i++){
       yearDatas.push(i)
     }
     setYearData(yearDatas)
   }, [])
 
   const generateMatrix = () => {
-    var matrix = [];
+    let matrix:any = [];
     // Create header
     matrix[0] = weekDaysShort;
  
-    var year = activeDate.getFullYear();
-    var month = activeDate.getMonth();
+    let year = activeDate.getFullYear();
+    let month = activeDate.getMonth();
     
-    var firstDay = new Date(year, month, 1).getDay();
+    let firstDay = new Date(year, month, 1).getDay();
 
-    var maxDays = nDays[month];
+    let maxDays = nDays[month];
     if (month == 1) { // February
       if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
         maxDays += 1;
       }
     }
 
-    var counter = 1;
-    for (var row = 1; row < 7; row++) {
+    let counter = 1;
+    for (let row = 1; row < 7; row++) {
       matrix[row] = [];
-      for (var col = 0; col < 7; col++) {
+      for (let col = 0; col < 7; col++) {
         matrix[row][col] = -1;
         if (row == 1 && col >= firstDay) {
           // Fill in rows only after the first day of the month
@@ -76,27 +92,27 @@ const DateTimePickerLib = (props) => {
     return matrix;
   }
 
-  const _onPress = (item) => {
+  const _onPress = (item:any) => {
     if (item !== activeDate.getDate()) {
-      var d = activeDate;
+      let d = activeDate;
       d.setDate(item);
       setActiveDate(new Date(d));
       setDate(d);
     }
   };
 
-  const changeMonth = (n) => {
-    var d = activeDate;
+  const changeMonth = (n:any) => {
+    let d = activeDate;
     d.setMonth(d.getMonth() + n);
     setActiveDate(new Date(d));
   }
 
   function prevMonth() {
-    var onDate = new Date(activeDate.getFullYear()+'-'+("0" + (activeDate.getMonth() + 1)).slice(-2)+'-'+("0" + activeDate.getDate()).slice(-2));
-    var minDate = new Date(props.minDate);
+    let onDate = new Date(activeDate.getFullYear()+'-'+("0" + (activeDate.getMonth() + 1)).slice(-2)+'-'+("0" + activeDate.getDate()).slice(-2));
+    let _minDate = new Date(minDate);
 
-    if(parseInt(onDate.getFullYear()) <= parseInt(minDate.getFullYear())){
-      if(onDate.getMonth() > minDate.getMonth()) {
+    if(Number(onDate.getFullYear()) <= Number(_minDate.getFullYear())){
+      if(onDate.getMonth() > _minDate.getMonth()) {
         return renderPrevMonthButton();
       }else{
         return <View style={{width:50}}/>
@@ -107,12 +123,12 @@ const DateTimePickerLib = (props) => {
   }
 
   function renderPrevMonthButton() {
-    var d = activeDate;
-    var monthName = '';
+    let d = activeDate;
+    let monthName = '';
     if(d.getMonth()===0){
       monthName = monthsShort[11];
     }else{
-      var res = d.getMonth() - 1;
+      let res = d.getMonth() - 1;
       monthName = monthsShort[res];
     }
 
@@ -138,11 +154,11 @@ const DateTimePickerLib = (props) => {
   }
 
   function nextMonth() {
-    var onDate = new Date(activeDate.getFullYear()+'-'+("0" + (activeDate.getMonth() + 1)).slice(-2)+'-'+("0" + activeDate.getDate()).slice(-2));
-    var maxDate = new Date(props.maxDate);
+    let onDate = new Date(activeDate.getFullYear()+'-'+("0" + (activeDate.getMonth() + 1)).slice(-2)+'-'+("0" + activeDate.getDate()).slice(-2));
+    let _maxDate = new Date(maxDate);
 
-    if(parseInt(onDate.getFullYear()) >= parseInt(maxDate.getFullYear())){
-      if(onDate.getMonth() < maxDate.getMonth()) {
+    if(Number(onDate.getFullYear()) >= Number(_maxDate.getFullYear())){
+      if(onDate.getMonth() < _maxDate.getMonth()) {
         return renderNextMonthButton();
       }else{
         return <View style={{width:50}}/>
@@ -153,12 +169,12 @@ const DateTimePickerLib = (props) => {
   }
 
   function renderNextMonthButton() {
-    var d = activeDate;
-    var monthName = '';
+    let d = activeDate;
+    let monthName = '';
     if(d.getMonth()===11){
       monthName = monthsShort[0];
     }else{
-      var res = d.getMonth() + 1;
+      let res = d.getMonth() + 1;
       monthName = monthsShort[res];
     }
 
@@ -189,14 +205,14 @@ const DateTimePickerLib = (props) => {
 
   useEffect(()=>{
     if(selectYear){
-      var index = yearData.findIndex(x => x===activeDate.getFullYear());
+      let index = yearData.findIndex(x => x===activeDate.getFullYear());
       setIndexInitialYear(index);
     }
   }, [selectYear])
 
   return(
   <Modal 
-    visible={props.visible}
+    visible={visible}
     animationType="fade"
     transparent={true}
   >
@@ -263,7 +279,7 @@ const DateTimePickerLib = (props) => {
                             }}
                             value={hour}
                             onChangeText={(text)=>{
-                              var num = parseInt(text);
+                              let num = parseInt(text);
                               setHour(num>24?'24':text)
                             }}
                             keyboardType="numeric"
@@ -284,7 +300,7 @@ const DateTimePickerLib = (props) => {
                             }}
                             value={minute}
                             onChangeText={(text)=>{
-                              var num = parseInt(text);
+                              let num = parseInt(text);
                               setMInute(num>59?'59':text)
                             }}
                             keyboardType="numeric"
@@ -313,12 +329,12 @@ const DateTimePickerLib = (props) => {
                     }}
                     activeOpacity={.6}
                     onPress={()=>{
-                      var newDate = date;
-                      newDate.setHours(hour);
-                      newDate.setMinutes(minute);
-                      newDate.setSeconds('00');
-                      newDate.setMilliseconds('000');
-                      props.onSelect(newDate);
+                      let newDate = date;
+                      newDate.setHours(Number(hour));
+                      newDate.setMinutes(Number(minute));
+                      newDate.setSeconds(Number('00'));
+                      newDate.setMilliseconds(Number('000'));
+                      onSelect ? onSelect(newDate) : false
                     }}
                   >
                   <Text style={{color:"#fff", fontWeight:'bold'}}>SELECT</Text> 
@@ -337,7 +353,7 @@ const DateTimePickerLib = (props) => {
                       borderColor: '#ccc'
                     }}
                     activeOpacity={.6}
-                    onPress={()=>props.onCancel()}
+                    onPress={onCancel}
                   >
                   <Text style={{color:"#000", fontWeight:'bold'}}>CANCEL</Text> 
                   </TouchableOpacity>
@@ -355,20 +371,19 @@ const DateTimePickerLib = (props) => {
     return(
       <FlatList
         contentContainerStyle={{flexGrow: 1, alignItems: 'center', marginTop: 10}}
-        ref={(ref) => yearListRef = ref}
         data={yearData}
         snapToAlignment={'start'}
         renderItem={({item, index})=>{
           return(
             <TouchableOpacity 
               onPress={() => {
-                var d = activeDate;
+                let d = activeDate;
                 d.setFullYear(item);
                 setActiveDate(new Date(d));
                 setSelectYear(false);
               }}
             >
-              <Text style={{fontWeight: activeDate.getFullYear() === item?'bold':'normal', fontSize: activeDate.getFullYear() === item?20:17, color:activeDate.getFullYear() === item?'#000':null, marginBottom: 10}}>{item}</Text>
+              <Text style={{fontWeight: activeDate.getFullYear() === item?'bold':'normal', fontSize: activeDate.getFullYear() === item?20:17, color:activeDate.getFullYear() === item?'#000':'#fff', marginBottom: 10}}>{item}</Text>
             </TouchableOpacity>
           )
         }}
@@ -381,12 +396,12 @@ const DateTimePickerLib = (props) => {
   }
   
   function renderCalendarData() {
-    var matrix = generateMatrix();
+    let matrix = generateMatrix();
 
-    var rows = [];
-    rows = matrix.map((row, rowIndex) => {
-      var rowItems = row.map((item, colIndex) => {
-        var active = false;
+    let rows:any = [];
+    rows = matrix.map((row:any, rowIndex:number) => {
+      let rowItems = row.map((item:any, colIndex:number) => {
+        let active = false;
         if(item === date.getDate() && activeDate.getMonth() === date.getMonth() && activeDate.getFullYear() === date.getFullYear()) {
           active = true;
         }
@@ -423,7 +438,7 @@ const DateTimePickerLib = (props) => {
               <TouchableOpacity style={{
                   width:30,
                   height:30,
-                  backgroundColor: active?'#12a4f2':null,
+                  backgroundColor: active?'#12a4f2':'#fff',
                   borderRadius:15,
                   justifyContent:'center',
                   alignItems:'center'
@@ -465,14 +480,14 @@ const DateTimePickerLib = (props) => {
     return rows;
   }
 
-  function disableDate(date) {
-    if(props.minDate || props.maxDate){
-      var monthDate = new Date(activeDate.getFullYear()+'-'+("0" + (activeDate.getMonth() + 1)).slice(-2)+'-'+("0" + activeDate.getDate()).slice(-2));
-      var onDate = new Date(monthDate.setDate(date));
-      var minDate = new Date(props.minDate);
-      var maxDate = new Date(props.maxDate);
-      maxDate.setDate(maxDate.getDate() + 1);
-      if(onDate.getTime() < minDate.getTime() || onDate.getTime() >= maxDate.getTime()){
+  function disableDate(date:any) {
+    if(minDate || maxDate){
+      let monthDate = new Date(activeDate.getFullYear()+'-'+("0" + (activeDate.getMonth() + 1)).slice(-2)+'-'+("0" + activeDate.getDate()).slice(-2));
+      let onDate = new Date(monthDate.setDate(date));
+      let _minDate = new Date(minDate);
+      let _maxDate = new Date(maxDate);
+      _maxDate.setDate(_maxDate.getDate() + 1);
+      if(onDate.getTime() < _minDate.getTime() || onDate.getTime() >= _maxDate.getTime()){
         // set not active date
         return true;
       }else{

@@ -24,9 +24,10 @@ const App () => {
       />
 
       <DateTimePickerLib
+        value={date}
         visible={visible}
         onCancel={()=>setVisible(!visible)}
-        onSelect={(data)=>{
+        onSelect={(data:any)=>{
           setDate(data);
           setVisible(!visible);
         }}
@@ -42,21 +43,27 @@ const App () => {
 
 ## Props
 
-| Prop                    | Description                                                                                 |
-|-------------------------|---------------------------------------------------------------------------------------------|
-| visible                 | Datetime picker visible                                                                     |
-| onCancel                | Action when cancel.                                                                         |
-| onSelect                | Action when select return date.                                                             |
-| minDate                 | Set minimum date.                                                                           |
-| maxDate                 | Set maximum date.                                                                           |
-| value                   | Set value.                                                                                  |
-| type                    | type datetime/date (default datetime).                                                                                  |
+| Prop                    | Type              | Default        | Description                                            |
+|-------------------------|-------------------|----------------|--------------------------------------------------------|
+| visible                 | bolean            | false          | Datetime picker modal visible                          |
+| minDate                 | any               | ""             | Set minimum date (Date||string).                       |
+| maxDate                 | any               | ""             | Set maximum date (Date||string).                       |
+| value                   | any               | ""             | Set value (Date||string).                              |
+| type                    | string            | datetime       | type datetime/date.                                    |
+
+## Function
+
+| Prop                    | Description                                            |
+|-------------------------|--------------------------------------------------------|
+| onCancel                | Action when cancel.                                    |
+| onSelect                | Action when select return date.                        |
                                                                                
 ## To Do
 - [x] Minimum date
 - [x] Maximum date
 - [x] Value
 - [x] Type datetime/date
+- [x] Typescript support
 - [ ] Hour am/pm
 
 ## Contributing
