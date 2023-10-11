@@ -1,8 +1,8 @@
 {
   "name": "@oman21/rn-datetimepicker",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "React Native Datetime Picker Module",
-  "main": "index.js",
+  "main": "DateTimePickerLib.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
