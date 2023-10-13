@@ -25,7 +25,8 @@ type IAdata = {
   maxDate?: any,
   visible?: boolean,
   onSelect?: (arg?: any) => void,
-  onCancel?: () => void
+  onCancel?: () => void,
+  theme?: string
 }
 const DateTimePickerLib : React.FC<IAdata> = ({
   value = "",
@@ -34,7 +35,8 @@ const DateTimePickerLib : React.FC<IAdata> = ({
   maxDate = "",
   visible = false,
   onSelect,
-  onCancel
+  onCancel,
+  theme = "light"
 }) => {
 
   const [activeDate, setActiveDate] = useState(value?new Date(value):new Date());
@@ -146,8 +148,8 @@ const DateTimePickerLib : React.FC<IAdata> = ({
             flexDirection:"row",
           }}
         >
-          <Image source={require('./assets/left-chevron.png')} style={{width: 12, height:12, resizeMode: 'contain', marginRight: 8, marginTop: 2}}/>
-          <Text style={{fontSize:13}}>{monthName}</Text>
+          <Image source={theme==="light"?require('./assets/left-chevron.png'):require('./assets/left-chevron-light.png')} style={{width: 12, height:12, resizeMode: 'contain', marginRight: 8, marginTop: 2}}/>
+          <Text style={{fontSize:13, color: theme==="light"?"#000":"#fff"}}>{monthName}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -192,8 +194,8 @@ const DateTimePickerLib : React.FC<IAdata> = ({
             flexDirection:"row",
           }}
         >
-          <Text style={{fontSize:13}}>{monthName}</Text>
-          <Image source={require('./assets/left-chevron.png')} style={{width: 12, height:12, resizeMode: 'contain', marginLeft: 8, marginTop: 2, transform: [{scaleX: -1}]}}/>
+          <Text style={{fontSize:13, color: theme==="light"?"#000":"#fff"}}>{monthName}</Text>
+          <Image source={theme==="light"?require('./assets/left-chevron.png'):require('./assets/left-chevron-light.png')} style={{width: 12, height:12, resizeMode: 'contain', marginLeft: 8, marginTop: 2, transform: [{scaleX: -1}]}}/>
         </View>
       </TouchableOpacity>
     )
@@ -217,7 +219,7 @@ const DateTimePickerLib : React.FC<IAdata> = ({
     transparent={true}
   >
       <View style={{backgroundColor:'#00000047', width: win.width, height: win.height, zIndex: 999, flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
-        <View style={{backgroundColor:"#fff", width: win.width-30, borderRadius: 10, paddingVertical: 15}}>
+        <View style={{backgroundColor: theme==="light"?"#fff":"#0f0913", width: win.width-30, borderRadius: 10, paddingVertical: 15}}>
           <View style={{height: type==='datetime'?460:370}}>
             <View style={{flexDirection:'row', alignItems:'center', paddingHorizontal: 15, marginBottom:10}}>
               {prevMonth()}
@@ -226,7 +228,7 @@ const DateTimePickerLib : React.FC<IAdata> = ({
                   fontWeight: 'bold',
                   fontSize: 18,
                   textAlign: 'center',
-                  color: '#000',
+                  color: theme==="light"?'#000':"#fff",
                   marginRight: 5,
                   opacity: selectYear?0.4:1
                 }}>
@@ -237,7 +239,7 @@ const DateTimePickerLib : React.FC<IAdata> = ({
                     fontWeight: 'bold',
                     fontSize: 18,
                     textAlign: 'center',
-                    color: '#000',
+                    color: theme==="light"?'#000':"#fff",
                     marginLeft: 5
                   }}>
                     {activeDate.getFullYear()}
@@ -259,15 +261,16 @@ const DateTimePickerLib : React.FC<IAdata> = ({
                         fontWeight: 'bold',
                         fontSize: 14,
                         textAlign: 'center',
-                        color: '#000',
+                        color: theme==="light"?'#000':"#fff",
                         marginRight: 5,
-                        opacity: selectYear?0.4:1
+                        opacity: selectYear?0.4:1,
+                        marginTop: 5
                       }}>
                         Set Time
                       </Text>
                       <View style={{flexDirection:'row', justifyContent: 'center', marginTop: 10}}>
                         <View style={{width: 80, justifyContent: 'center', alignItems:'center'}}>
-                          <Text style={{fontSize:13}}>Hour</Text>
+                          <Text style={{fontSize:13, color: theme==="light"?"#000":"#fff"}}>Hour</Text>
                           <TextInput
                             style={{
                               width: 50,
@@ -275,7 +278,8 @@ const DateTimePickerLib : React.FC<IAdata> = ({
                               borderBottomWidth: 1,
                               textAlign:'center',
                               fontSize: 20,
-                              fontWeight:'bold'
+                              fontWeight:'bold',
+                              color: theme==="light"?"#000":"#fff"
                             }}
                             value={hour}
                             onChangeText={(text)=>{
@@ -288,7 +292,7 @@ const DateTimePickerLib : React.FC<IAdata> = ({
                         </View>
                         <Text style={{fontSize: 20, marginTop: 27, fontWeight: 'bold'}}>:</Text>
                         <View style={{width: 80, justifyContent: 'center', alignItems:'center'}}>
-                          <Text style={{fontSize: 13}}>Min</Text>
+                          <Text style={{fontSize: 13, color: theme==="light"?"#000":"#fff"}}>Min</Text>
                           <TextInput
                             style={{
                               width: 50,
@@ -296,7 +300,8 @@ const DateTimePickerLib : React.FC<IAdata> = ({
                               borderBottomWidth: 1,
                               textAlign:'center',
                               fontSize: 20,
-                              fontWeight:'bold'
+                              fontWeight:'bold',
+                              color: theme==="light"?"#000":"#fff"
                             }}
                             value={minute}
                             onChangeText={(text)=>{
@@ -313,7 +318,7 @@ const DateTimePickerLib : React.FC<IAdata> = ({
                 }
                 <View style={{height:1, backgroundColor:'#ccc', marginVertical: 15}}/>
                 <View>
-                  <Text style={{textAlign:"center", fontWeight:'bold', color: '#000'}}>{weekDays[date.getDay()]}, {date.getDate()} {months[date.getMonth()]} {date.getFullYear()} {type==='datetime'?hour+':':''}{type==='datetime'?minute:''}</Text>
+                  <Text style={{textAlign:"center", fontWeight:'bold', color: theme==="light"?'#000':"#fff"}}>{weekDays[date.getDay()]}, {date.getDate()} {months[date.getMonth()]} {date.getFullYear()} {type==='datetime'?hour+':':''}{type==='datetime'?minute:''}</Text>
                 </View>
                 <View style={{height:1, backgroundColor:'#ccc', marginVertical: 15}}/>
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
@@ -438,7 +443,7 @@ const DateTimePickerLib : React.FC<IAdata> = ({
               <TouchableOpacity style={{
                   width:30,
                   height:30,
-                  backgroundColor: active?'#12a4f2':'#fff',
+                  backgroundColor: active?'#12a4f2':theme==="light"?'#fff':"#000",
                   borderRadius:15,
                   justifyContent:'center',
                   alignItems:'center'
@@ -450,7 +455,7 @@ const DateTimePickerLib : React.FC<IAdata> = ({
                 <Text
                   style={{
                     textAlign: 'center',
-                    color: active?'#fff':(colIndex == 0 ? '#a00' : '#000'),
+                    color: active?'#fff':(colIndex == 0 ? '#a00' : theme==="light"?'#000':"#fff"),
                     fontWeight: active? 'bold': 'normal',
                     opacity: item != -1 && disableDate(item)?0.4:1
                   }}

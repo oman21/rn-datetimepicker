@@ -50,6 +50,7 @@ const App () => {
 | maxDate                 | any               | ""             | Set maximum date (Date||string).                       |
 | value                   | any               | ""             | Set value (Date||string).                              |
 | type                    | string            | datetime       | type datetime/date.                                    |
+| theme                   | string            | light          | light/dark theme.                                      |
 
 ## Function
 
