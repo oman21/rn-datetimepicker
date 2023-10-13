@@ -43,14 +43,18 @@ const App () => {
 
 ## Props
 
-| Prop                    | Type              | Default        | Description                                            |
-|-------------------------|-------------------|----------------|--------------------------------------------------------|
-| visible                 | bolean            | false          | Datetime picker modal visible                          |
-| minDate                 | any               | ""             | Set minimum date (Date||string).                       |
-| maxDate                 | any               | ""             | Set maximum date (Date||string).                       |
-| value                   | any               | ""             | Set value (Date||string).                              |
-| type                    | string            | datetime       | type datetime/date.                                    |
-| theme                   | string            | light          | light/dark theme.                                      |
+| Prop            | Type    | Default                                                                                                                      | Description                                            |
+|-----------------|---------|------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+| visible         | bolean  | false                                                                                                                        | Datetime picker modal visible                          |
+| minDate         | any     | ""                                                                                                                           | Set minimum date (Date or string).                     |
+| maxDate         | any     | ""                                                                                                                           | Set maximum date (Date or string).                     |
+| value           | any     | ""                                                                                                                           | Set value (Date or string).                            |
+| type            | string  | datetime                                                                                                                     | Type datetime/date.                                    |
+| theme           | string  | light                                                                                                                        | Light/dark theme.                                      |
+| months          | array   | ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]   | Month name.                                            |
+| monthsShort     | array   | ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]                                         | Month short name.                                      |
+| weekDays        | array   | ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]                                               | Day name.                                              |
+| weekDaysShort   | array   | ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]                                                                            | Day short name.                                        |
 
 ## Function
 
