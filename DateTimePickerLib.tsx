@@ -12,10 +12,6 @@ import {
 
 const win = Dimensions.get('window');
 
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const monthsShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const weekDaysShort = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const nDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 type IAdata = {
@@ -26,7 +22,11 @@ type IAdata = {
   visible?: boolean,
   onSelect?: (arg?: any) => void,
   onCancel?: () => void,
-  theme?: string
+  theme?: string,
+  months?: any,
+  monthsShort?: any,
+  weekDays?: any,
+  weekDaysShort?: any
 }
 const DateTimePickerLib : React.FC<IAdata> = ({
   value = "",
@@ -36,7 +36,11 @@ const DateTimePickerLib : React.FC<IAdata> = ({
   visible = false,
   onSelect,
   onCancel,
-  theme = "light"
+  theme = "light",
+  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  monthsShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+  weekDaysShort = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
 }) => {
 
   const [activeDate, setActiveDate] = useState(value?new Date(value):new Date());
