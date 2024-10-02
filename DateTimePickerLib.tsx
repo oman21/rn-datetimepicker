@@ -26,7 +26,8 @@ type IAdata = {
   months?: any,
   monthsShort?: any,
   weekDays?: any,
-  weekDaysShort?: any
+  weekDaysShort?: any,
+  colorButton?: string
 }
 const DateTimePickerLib : React.FC<IAdata> = ({
   value = "",
@@ -40,7 +41,8 @@ const DateTimePickerLib : React.FC<IAdata> = ({
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
   monthsShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
   weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-  weekDaysShort = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+  weekDaysShort = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
+  colorButton= "#12a4f2"
 }) => {
 
   const [activeDate, setActiveDate] = useState(value?new Date(value):new Date());
@@ -328,7 +330,7 @@ const DateTimePickerLib : React.FC<IAdata> = ({
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
                   <TouchableOpacity
                     style={{
-                      backgroundColor: '#12a4f2',
+                      backgroundColor: colorButton,
                       width: 110,
                       height: 35,
                       justifyContent:'center',
@@ -447,7 +449,7 @@ const DateTimePickerLib : React.FC<IAdata> = ({
               <TouchableOpacity style={{
                   width:30,
                   height:30,
-                  backgroundColor: active?'#12a4f2':theme==="light"?'#fff':"#000",
+                  backgroundColor: active?colorButton:theme==="light"?'#fff':"#000",
                   borderRadius:15,
                   justifyContent:'center',
                   alignItems:'center'

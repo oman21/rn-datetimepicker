@@ -55,6 +55,7 @@ const App () => {
 | monthsShort     | array   | ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]                                         | Month short name.                                      |
 | weekDays        | array   | ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]                                               | Day name.                                              |
 | weekDaysShort   | array   | ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]                                                                            | Day short name.                                        |
+| colorButton   | string   | "#12a4f2"                                                                            | Day short name.                                        |
 
 ## Function
 
@@ -64,12 +65,12 @@ const App () => {
 | onSelect                | Action when select return date.                        |
                                                                                
 ## To Do
-- [x] Minimum date
-- [x] Maximum date
-- [x] Value
-- [x] Type datetime/date
-- [x] Typescript support
-- [ ] Hour am/pm
+- [x]  Minimum date
+- [x]  Maximum date
+- [x]  Value
+- [x]  Type datetime/date
+- [x]  Typescript support
+- [ ]  Hour am/pm
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
