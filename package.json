@@ -1,6 +1,6 @@
 {
   "name": "@oman21/rn-datetimepicker",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "React Native Datetime Picker Module",
   "main": "DateTimePickerLib.tsx",
   "scripts": {
