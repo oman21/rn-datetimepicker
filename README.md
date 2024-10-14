@@ -70,6 +70,8 @@ const App () => {
 - [x]  Value
 - [x]  Type datetime/date
 - [x]  Typescript support
+- [ ]  Select Year
+- [ ]  Select Month
 - [ ]  Hour am/pm
 
 ## Contributing
